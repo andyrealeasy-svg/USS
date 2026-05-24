@@ -1,0 +1,6 @@
+{
+  "name": "United States Of SiCka",
+  "description": "Cinematic and completely dark album announcement presentation with a gritty glitch sequence building up to an elegant title reveal. Utilizes placeholders with fixed 1:1 aspect ratios, waiting for production imagery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
