@@ -156,6 +156,7 @@ function startSequence(container) {
                                 <span class="block cinematic-text">United States</span>
                                 <span class="text-stone-400 block cinematic-text" style="animation-delay: 0.2s">Of SiCka</span>
                             </h1>
+                            <p class="font-mono text-stone-300 md:text-lg tracking-[0.5em] uppercase mt-8 md:mt-12 opacity-80" style="animation: fade-in-anim 2s ease-out forwards; animation-delay: 1.5s; opacity: 0;">ALBUM OUT 8.21.2026</p>
                          </div>
 
                          <div id="rev-album" class="fly-in-album mt-10 md:mt-16 w-full max-w-xl relative group z-20">
