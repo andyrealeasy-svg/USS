@@ -102,36 +102,38 @@ function startSequence(container) {
         } else if (currentStage.type === 'montage') {
             container.innerHTML = `
                 <div id="montage-bg" class="absolute inset-0 z-40 bg-[#050505]">
-                    <div id="montage-el" class="absolute w-full h-full flex items-center justify-center transition-all duration-75">
-                         <div id="montage-inner" class="w-3/4 md:w-1/3 aspect-square bg-[#0e0e0e] border-[0.5rem] border-white shadow-[0_0_100px_rgba(255,255,255,0.1)] overflow-hidden relative rotate-1">
-                            <img id="montage-img" src="" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover blur-[10px] scale-105 transition-all duration-400 ease-out" />
-                            <div class="film-flash absolute inset-0 pointer-events-none"></div>
-                         </div>
+                    <div id="montage-el" class="absolute w-full h-full flex items-center justify-center transition-all duration-75 overflow-hidden">
                     </div>
                 </div>
             `;
             
             let tick = 0;
             const updateMontage = () => {
-                const img = document.getElementById('montage-img');
-                const inner = document.getElementById('montage-inner');
-                if (img && inner) {
+                const containerEl = document.getElementById('montage-el');
+                if (containerEl) {
                     const activeImage = RANDOM_IMAGES[tick % RANDOM_IMAGES.length];
-                    img.src = activeImage;
+                    const rotation = (Math.random() - 0.5) * 30; // -15 to 15 degrees
+                    const offsetX = (Math.random() - 0.5) * 40;
+                    const offsetY = (Math.random() - 0.5) * 40;
                     
-                    img.style.filter = 'blur(10px)';
-                    img.style.transform = 'scale(1.05)';
+                    const newPhoto = document.createElement('div');
+                    newPhoto.className = "absolute w-[80%] max-w-[400px] aspect-square bg-[#0e0e0e] ring-[0.5rem] ring-white shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden";
+                    newPhoto.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotation}deg) scale(1.15)`;
+                    newPhoto.style.opacity = '0';
+                    newPhoto.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    newPhoto.style.zIndex = tick.toString();
                     
-                    const oldFlash = inner.querySelector('.film-flash');
-                    if (oldFlash) {
-                        const newFlash = oldFlash.cloneNode(true);
-                        inner.replaceChild(newFlash, oldFlash);
-                    }
+                    newPhoto.innerHTML = `
+                        <img src="${activeImage}" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover" />
+                        <div class="film-flash absolute inset-0 pointer-events-none"></div>
+                    `;
+                    
+                    containerEl.appendChild(newPhoto);
                     
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
-                            img.style.filter = 'blur(0px)';
-                            img.style.transform = 'scale(1)';
+                            newPhoto.style.opacity = '1';
+                            newPhoto.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotation}deg) scale(1)`;
                         });
                     });
                 }
