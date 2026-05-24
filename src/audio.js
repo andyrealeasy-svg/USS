@@ -1,8 +1,8 @@
-let sharedCtx: AudioContext | null = null;
+let sharedCtx = null;
 
 const getSharedCtx = () => {
   if (!sharedCtx) {
-    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (AudioContextClass) {
       sharedCtx = new AudioContextClass();
     }
@@ -126,7 +126,7 @@ export const playShutter = () => {
 
   if (ctx.state === 'suspended') ctx.resume();
 
-  const playClick = (time: number, freq: number) => {
+  const playClick = (time, freq) => {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'square';

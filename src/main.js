@@ -1,5 +1,5 @@
 import './index.css';
-import { startDrone, playImpact, playShutter, playMassiveImpact } from './audio';
+import { startDrone, playImpact, playShutter, playMassiveImpact } from './audio.js';
 
 const COVER_IMAGE = "https://i.postimg.cc/28sPh51s/file-0000000083a47246a1087a141da0ebe2.png";
 const RANDOM_IMAGES = [
@@ -29,7 +29,7 @@ function preloadImages() {
   });
 }
 
-function placeholderHtml(id: string, srcStr?: string, extraClasses = "") {
+function placeholderHtml(id, srcStr, extraClasses = "") {
   let inner = '';
   if (srcStr) {
     inner += `<img src="${srcStr}" alt="${id}" referrerpolicy="no-referrer" class="absolute inset-0 w-full h-full object-cover z-0 opacity-80 group-hover:opacity-100 transition-all duration-700" />`;
@@ -42,7 +42,7 @@ function placeholderHtml(id: string, srcStr?: string, extraClasses = "") {
   return `<div class="w-full aspect-square bg-[#0a0a0a] border border-stone-800 flex items-center justify-center relative overflow-hidden group ${extraClasses}">${inner}</div>`;
 }
 
-function renderIntro(container: HTMLElement, onStart: () => void) {
+function renderIntro(container, onStart) {
     container.innerHTML = `
       <div id="intro-screen" class="absolute inset-0 flex items-center justify-center z-50 flex-col gap-10 opacity-100 transition-opacity duration-1000">
         <button id="init-btn" class="font-mono text-xs md:text-sm tracking-[0.6em] text-stone-500 hover:text-stone-100 transition-all duration-1000 px-8 py-5 border border-stone-800 hover:border-stone-400 bg-black/50 backdrop-blur-sm cursor-pointer shadow-2xl hover:shadow-stone-900">
@@ -63,12 +63,12 @@ function renderIntro(container: HTMLElement, onStart: () => void) {
     });
 }
 
-function startSequence(container: HTMLElement) {
+function startSequence(container) {
     let step = 0;
-    let montageInterval: any;
+    let montageInterval;
 
     function renderStep() {
-        const currentStage = SEQ[step] as any;
+        const currentStage = SEQ[step];
         if (!currentStage) return;
 
         if (montageInterval) {
@@ -114,7 +114,7 @@ function startSequence(container: HTMLElement) {
             
             let tick = 0;
             const updateMontage = () => {
-                const img = document.getElementById('montage-img') as HTMLImageElement;
+                const img = document.getElementById('montage-img');
                 const inner = document.getElementById('montage-inner');
                 if (img && inner) {
                     const activeImage = RANDOM_IMAGES[tick % RANDOM_IMAGES.length];
@@ -233,7 +233,7 @@ function startSequence(container: HTMLElement) {
     renderStep();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+function initApp() {
     preloadImages();
     
     const container = document.getElementById('app-container');
@@ -243,4 +243,10 @@ window.addEventListener('DOMContentLoaded', () => {
         startDrone();
         startSequence(container);
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
