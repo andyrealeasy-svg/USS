@@ -1,4 +1,3 @@
-import './index.css';
 import { startDrone, playImpact, playShutter, playMassiveImpact } from './audio.js';
 
 const COVER_IMAGE = "https://i.postimg.cc/28sPh51s/file-0000000083a47246a1087a141da0ebe2.png";
